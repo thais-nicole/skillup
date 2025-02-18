@@ -1,5 +1,56 @@
-## Compose sample application
-### React application with a Spring backend and a MySQL database
+# Projeto Skillup
+
+## Pré-requisitos
+
+- Docker
+- Docker Compose
+
+## Configuração
+
+### Passos para Configurar o Ambiente
+
+1. **Crie um arquivo `.env` na raiz do projeto com o seguinte conteúdo:**
+
+```dotenv
+POSTGRES_DB=skillup_db
+POSTGRES_USER=your_postgres_user
+POSTGRES_PASSWORD=your_postgres_password
+```
+Realizar o passo 1 antes de iniciar os containers para que o `compose.yaml` possa criar o banco de dados.
+
+### Iniciar os Containers Docker
+
+1. **Inicie os containers:**
+
+```sh
+docker-compose up -d
+```
+
+### Verificar os Logs
+
+Para verificar os logs dos containers, use os seguintes comandos:
+
+1. **Logs do Container PostgreSQL:**
+
+```sh
+docker logs -f postgres_container
+```
+
+2. **Logs do Container Backend:**
+
+```sh
+docker logs -f skillup-backend-1
+```
+
+3. **Logs do Container Frontend:**
+
+```sh
+docker logs -f skillup-frontend-1
+```
+
+### Conclusão
+
+Essas etapas devem garantir que o ambiente esteja configurado corretamente e que os containers estejam funcionando como esperado.
 
 Project structure:
 ```
@@ -8,12 +59,14 @@ Project structure:
 │   ├── Dockerfile
 │   ...
 ├── db
-│   └── password.txt
-├── compose.yaml
+│   ...
 ├── frontend
 │   ├── ...
 │   └── Dockerfile
-└── README.md
+├── .env
+├── .gitgnore
+├── compose.yaml
+├── README.md
 ```
 
 [_compose.yaml_](compose.yaml)

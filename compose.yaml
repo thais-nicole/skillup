@@ -1,37 +1,40 @@
+version: '3.8'
+
 services:
   backend:
     build: backend
     restart: always
-    secrets:
-      - db-password
     environment:
-      MYSQL_HOST: db
+      POSTGRES_HOST: db
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     networks:
       - react-spring
-      - spring-mysql
+      - spring-postgres
     depends_on:
       db:
         condition: service_healthy
   db:
-    # We use a mariadb image which supports both amd64 & arm64 architecture
-    image: mariadb:10.6.4-focal
-    # If you really want to use MySQL, uncomment the following line
-    #image: mysql:8.0.19
-    environment:
-      - MYSQL_DATABASE=example
-      - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/db-password
+    image: postgres:15
+    container_name: postgres_container
     restart: always
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "--silent"]
-      interval: 3s
-      retries: 5
-      start_period: 30s
-    secrets:
-      - db-password
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
     volumes:
-      - db-data:/var/lib/mysql
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/src/main/resources/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      retries: 5
     networks:
-      - spring-mysql
+      - spring-postgres
+
   frontend:
     build:
       context: frontend
@@ -45,14 +48,10 @@ services:
       - react-spring
     depends_on:
       - backend
-    expose:
-      - 3306
-      - 33060
+
 volumes:
-  db-data: {}
-secrets:
-  db-password:
-    file: db/password.txt
+  postgres_data: {}
+
 networks:
   react-spring: {}
-  spring-mysql: {}
+  spring-postgres: {}

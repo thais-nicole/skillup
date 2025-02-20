@@ -1,4 +1,30 @@
-# Projeto Skillup
+# 🚀 SkillUp
+
+SkillUp é uma plataforma inovadora que permite aos participantes construir portfólios interativos e visuais, acompanhando métricas de progresso. Com foco no trabalho em equipe, o SkillUp possibilita a conexão entre portifólios para criação de projetos de maneira colaborativa, criando uma rede de evolução conjunta. 
+
+---
+
+## 🛠️ Tecnologias Utilizadas
+
+- 🎨 **Frontend:**
+    - Javascript
+    - React
+- 💻**Backend:**
+    - Java
+    - Spring Boot
+- 🗃️ **Banco de Dados:**
+    -  PostgreSQL
+
+---
+
+## ✨ Funcionalidades
+
+✅ Criação de portfólios interativos  
+📊 Monitoramento de métricas de progresso  
+🤝 Colaboração em projetos
+📱 Interface amigável e responsiva  
+
+---
 
 ## Pré-requisitos
 
